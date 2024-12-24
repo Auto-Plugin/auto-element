@@ -8,6 +8,10 @@ export function isObject(obj) {
   return Object.prototype.toString.call(obj) === '[object Object]';
 }
 
+export function isBoolean(obj) {
+  return typeof obj === 'boolean';
+}
+
 export function isHtmlElement(node) {
   return node && node.nodeType === Node.ELEMENT_NODE;
 }

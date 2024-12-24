@@ -45,6 +45,7 @@
     'use strict';
 
     var root = window;
+    // var Vue = {}
 
     // default options
     var DEFAULTS = {
@@ -78,7 +79,9 @@
 
         modifiersIgnored: [],
 
-        forceAbsolute: false
+        forceAbsolute: false,
+
+        scale: 1
     };
 
     /**
@@ -90,9 +93,12 @@
      * @param {String} [popper.tagName='div'] The tag name of the generated popper.
      * @param {Array} [popper.classNames=['popper']] Array of classes to apply to the generated popper.
      * @param {Array} [popper.attributes] Array of attributes to apply, specify `attr:value` to assign a value to it.
-     * @param {HTMLElement|String} [popper.parent=window.document.body] The parent element, given as HTMLElement or as query string.
-     * @param {String} [popper.content=''] The content of the popper, it can be text, html, or node; if it is not text, set `contentType` to `html` or `node`.
-     * @param {String} [popper.contentType='text'] If `html`, the `content` will be parsed as HTML. If `node`, it will be appended as-is.
+     * @param {HTMLElement|String} [popper.parent=window.document.body] The parent element, given as HTMLElement or as
+     *   query string.
+     * @param {String} [popper.content=''] The content of the popper, it can be text, html, or node; if it is not text,
+     *   set `contentType` to `html` or `node`.
+     * @param {String} [popper.contentType='text'] If `html`, the `content` will be parsed as HTML. If `node`, it will
+     *   be appended as-is.
      * @param {String} [popper.arrowTagName='div'] Same as `popper.tagName` but for the arrow element.
      * @param {Array} [popper.arrowClassNames='popper__arrow'] Same as `popper.classNames` but for the arrow element.
      * @param {String} [popper.arrowAttributes=['x-arrow']] Same as `popper.attributes` but for the arrow element.
@@ -116,7 +122,8 @@
      *      Amount of pixels the popper will be shifted (can be negative).
      *
      * @param {String|Element} [options.boundariesElement='viewport']
-     *      The element which will define the boundaries of the popper position, the popper will never be placed outside
+     *      The element which will define the boundaries of the popper position, the popper will never be placed
+     *   outside
      *      of the defined boundaries (except if `keepTogether` is enabled)
      *
      * @param {Number} [options.boundariesPadding=5]
@@ -131,13 +138,14 @@
      *      overlap its reference element. Defining `flip` as value, the placement will be flipped on
      *      its axis (`right - left`, `top - bottom`).
      *      You can even pass an array of placements (eg: `['right', 'left', 'top']` ) to manually specify
-     *      how alter the placement when a flip is needed. (eg. in the above example, it would first flip from right to left,
-     *      then, if even in its new placement, the popper is overlapping its reference element, it will be moved to top)
+     *      how alter the placement when a flip is needed. (eg. in the above example, it would first flip from right to
+     *   left, then, if even in its new placement, the popper is overlapping its reference element, it will be moved to
+     *   top)
      *
-     * @param {Array} [options.modifiers=[ 'shift', 'offset', 'preventOverflow', 'keepTogether', 'arrow', 'flip', 'applyStyle']]
-     *      List of functions used to modify the data before they are applied to the popper, add your custom functions
-     *      to this array to edit the offsets and placement.
-     *      The function should reflect the @params and @returns of preventOverflow
+     * @param {Array} [options.modifiers=[ 'shift', 'offset', 'preventOverflow', 'keepTogether', 'arrow', 'flip',
+     *   'applyStyle']] List of functions used to modify the data before they are applied to the popper, add your
+     *   custom functions to this array to edit the offsets and placement. The function should reflect the @params and
+     *   @returns of preventOverflow
      *
      * @param {Array} [options.modifiersIgnored=[]]
      *      Put here any built-in modifier name you want to exclude from the modifiers list
@@ -243,7 +251,8 @@
     };
 
     /**
-     * If a function is passed, it will be executed after the initialization of popper with as first argument the Popper instance.
+     * If a function is passed, it will be executed after the initialization of popper with as first argument the
+     * Popper instance.
      * @method
      * @memberof Popper
      * @param {Function} callback
@@ -255,9 +264,9 @@
     };
 
     /**
-     * If a function is passed, it will be executed after each update of popper with as first argument the set of coordinates and informations
-     * used to style popper and its arrow.
-     * NOTE: it doesn't get fired on the first call of the `Popper.update()` method inside the `Popper` constructor!
+     * If a function is passed, it will be executed after each update of popper with as first argument the set of
+     * coordinates and informations used to style popper and its arrow. NOTE: it doesn't get fired on the first call of
+     * the `Popper.update()` method inside the `Popper` constructor!
      * @method
      * @memberof Popper
      * @param {Function} callback
@@ -417,6 +426,9 @@
         //
 
         // depending by the popper placement we have to compute its offsets slightly differently
+        Object.keys(referenceOffsets).forEach((key) => {
+            referenceOffsets[key] = referenceOffsets[key] / DEFAULTS.scale
+        });
         if (['right', 'left'].indexOf(placement) !== -1) {
             popperOffsets.top = referenceOffsets.top + referenceOffsets.height / 2 - popperRect.height / 2;
             if (placement === 'left') {
@@ -451,6 +463,7 @@
      * @access private
      */
     Popper.prototype._setupEventListeners = function() {
+        DEFAULTS.scale = getExternalScalingRatio(root.offsetEl)
         // NOTE: 1 DOM access here
         this.state.updateBound = this.update.bind(this);
         root.addEventListener('resize', this.state.updateBound);
@@ -548,6 +561,10 @@
         boundaries.right -= padding;
         boundaries.top = boundaries.top + padding;
         boundaries.bottom = boundaries.bottom - padding;
+
+        Object.keys(boundaries).forEach((key) => {
+            boundaries[key] = boundaries[key] / DEFAULTS.scale
+        })
         return boundaries;
     };
 
@@ -1230,6 +1247,16 @@
             }
         }
         return null;
+    }
+
+  /**
+   * For some reason, the user sets the page zoom themselves
+   * @param {Element} el
+   * @returns number
+   */
+    function getExternalScalingRatio(el) {
+        const scaleMatch = el && el.style.getPropertyValue('transform').match(/scale\((.*?)\)/)
+        return scaleMatch ? +scaleMatch[1] : 1
     }
 
     /**
