@@ -46,7 +46,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:ElemeFE/element.git"
+    "url": "git@github.com:ffgenius/element.git"
   },
   "homepage": "http://element.eleme.io",
   "keywords": [
@@ -63,8 +63,12 @@
   "web-types": "./web-types.json",
   "dependencies": {
     "async-validator": "~1.8.1",
+    "autofit.js": "^3.2.2",
     "babel-helper-vue-jsx-merge-props": "^2.0.0",
     "deepmerge": "^1.2.0",
+    "eslint-loader": "2.1.1",
+    "eslint-webpack-plugin": "2",
+    "jsonc-parser": "2.0.2",
     "normalize-wheel": "^1.0.1",
     "resize-observer-polyfill": "^1.5.0",
     "throttle-debounce": "^1.0.1"
@@ -96,7 +100,6 @@
     "es6-promise": "^4.0.5",
     "eslint": "4.18.2",
     "eslint-config-elemefe": "0.1.1",
-    "eslint-loader": "^2.0.0",
     "eslint-plugin-html": "^4.0.1",
     "eslint-plugin-json": "^1.2.0",
     "file-loader": "^1.1.11",

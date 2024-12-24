@@ -8,6 +8,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const launchEditorMiddleware = require('launch-editor-middleware');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 const config = require('./config');
 
@@ -53,12 +54,12 @@ const webpackConfig = {
   },
   module: {
     rules: [
-      {
-        enforce: 'pre',
-        test: /\.(vue|jsx?)$/,
-        exclude: /node_modules/,
-        loader: 'eslint-loader'
-      },
+      // {
+      //   enforce: 'pre',
+      //   test: /\.(vue|jsx?)$/,
+      //   exclude: /node_modules/,
+      //   loader: 'eslint-loader'
+      // },
       {
         test: /\.(jsx?|babel|es6)$/,
         include: process.cwd(),
@@ -130,7 +131,14 @@ const webpackConfig = {
           preserveWhitespace: false
         }
       }
-    })
+    }),
+    new ESLintPlugin({
+      extensions: ['js', 'jsx', 'vue'], // 指定要检查的文件扩展名
+      exclude: 'node_modules',          // 排除 node_modules 文件夹
+      failOnWarning: false,             // 可选：遇到警告时是否构建失败
+      failOnError: true,                // 可选：遇到错误时是否构建失败
+      // 其他可选配置项...
+    }),
   ],
   optimization: {
     minimizer: []
