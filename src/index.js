@@ -89,9 +89,8 @@ import Empty from '../packages/empty/index.js';
 import Descriptions from '../packages/descriptions/index.js';
 import DescriptionsItem from '../packages/descriptions-item/index.js';
 import Result from '../packages/result/index.js';
-import locale from 'element-ui/src/locale';
-import offset from 'element-ui/src//offset'
-import CollapseTransition from 'element-ui/src/transitions/collapse-transition';
+import locale from 'auto-element/src/locale';
+import CollapseTransition from 'auto-element/src/transitions/collapse-transition';
 
 const components = [
   Pagination,
@@ -184,8 +183,6 @@ const components = [
 const install = function(Vue, opts = {}) {
   locale.use(opts.locale);
   locale.i18n(opts.i18n);
-
-  offset.use(opts.offset);
 
   components.forEach(component => {
     Vue.component(component.name, component);

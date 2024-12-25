@@ -1,14 +1,13 @@
-import { isDefined, isString } from 'element-ui/src/utils/types'
+import { isDefined, isString } from 'auto-element/src/utils/types';
 
 const use = (o) => {
-  console.log(1111)
+  console.log('offset used');
   if (!isDefined(o)) return;
   if (isString(o)) {
-    window.offsetEl = document.querySelector(o)
-    return
+    window.offsetEl = document.querySelector(o);
+    return;
   }
-  console.error('offset -- the input is a non string parameter!')
-}
+  console.error('offset -- the input is a non string parameter!');
+};
 
-
-export default { use }
+export default { use };

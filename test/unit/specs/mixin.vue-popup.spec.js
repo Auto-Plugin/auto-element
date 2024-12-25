@@ -1,4 +1,4 @@
-import VuePopup from 'element-ui/src/utils/popup';
+import VuePopup from 'auto-element/src/utils/popup';
 import { createTest, destroyVM } from '../util';
 
 const Popup = Object.assign({}, VuePopup, {

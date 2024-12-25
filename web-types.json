@@ -1,6 +1,6 @@
 {
   "framework": "vue",
-  "name": "element-ui",
+  "name": "auto-element",
   "version": "2.15.9",
   "description-markup": "markdown",
   "contributions": {

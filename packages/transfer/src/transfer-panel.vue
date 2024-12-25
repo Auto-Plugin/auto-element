@@ -9,7 +9,7 @@
         <span>{{ checkedSummary }}</span>
       </el-checkbox>
     </p>
-    
+
     <div :class="['el-transfer-panel__body', hasFooter ? 'is-with-footer' : '']">
       <el-input
         class="el-transfer-panel__filter"
@@ -52,10 +52,10 @@
 </template>
 
 <script>
-  import ElCheckboxGroup from 'element-ui/packages/checkbox-group';
-  import ElCheckbox from 'element-ui/packages/checkbox';
-  import ElInput from 'element-ui/packages/input';
-  import Locale from 'element-ui/src/mixins/locale';
+  import ElCheckboxGroup from 'auto-element/packages/checkbox-group';
+  import ElCheckbox from 'auto-element/packages/checkbox';
+  import ElInput from 'auto-element/packages/input';
+  import Locale from 'auto-element/src/mixins/locale';
 
   export default {
     mixins: [Locale],

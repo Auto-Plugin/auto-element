@@ -1,4 +1,4 @@
-import VuePopper from 'element-ui/src/utils/vue-popper';
+import VuePopper from 'auto-element/src/utils/vue-popper';
 import { createTest } from '../util';
 
 const Popper = Object.assign({}, VuePopper, {

@@ -1,4 +1,4 @@
-export * from './element-ui'
+export * from './auto-element'
 
-import * as ElementUI from './element-ui'
-export default ElementUI
+import * as AutoElement from './auto-element'
+export default AutoElement
