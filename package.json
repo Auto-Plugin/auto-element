@@ -63,7 +63,6 @@
   "web-types": "./web-types.json",
   "dependencies": {
     "async-validator": "~1.8.1",
-    "auto-element": "file:.yalc/auto-element",
     "autofit.js": "^3.2.2",
     "babel-helper-vue-jsx-merge-props": "^2.0.0",
     "deepmerge": "^1.2.0",
