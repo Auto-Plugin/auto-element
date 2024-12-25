@@ -90,6 +90,7 @@ import Descriptions from '../packages/descriptions/index.js';
 import DescriptionsItem from '../packages/descriptions-item/index.js';
 import Result from '../packages/result/index.js';
 import locale from 'auto-element/src/locale';
+import offset from 'auto-element/src/offset';
 import CollapseTransition from 'auto-element/src/transitions/collapse-transition';
 
 const components = [
@@ -183,6 +184,8 @@ const components = [
 const install = function(Vue, opts = {}) {
   locale.use(opts.locale);
   locale.i18n(opts.i18n);
+
+  offset.use(opts.offset);
 
   components.forEach(component => {
     Vue.component(component.name, component);
