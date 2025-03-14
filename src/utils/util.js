@@ -243,3 +243,15 @@ export function objToArray(obj) {
 export const isMac = function() {
   return !Vue.prototype.$isServer && /macintosh|mac os x/i.test(navigator.userAgent);
 };
+
+
+/**
+ * For some reason, the user sets the page zoom themselves
+ * @param {Element} el
+ * @returns number
+ */
+
+export function getExternalScalingRatio(el) {
+  const scaleMatch = el && el.style.getPropertyValue('transform').match(/scale\((.*?)\)/)
+  return scaleMatch ? +scaleMatch[1] : 1
+}

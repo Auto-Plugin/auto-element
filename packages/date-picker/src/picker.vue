@@ -91,6 +91,7 @@ import Popper from 'auto-element/src/utils/vue-popper';
 import Emitter from 'auto-element/src/mixins/emitter';
 import ElInput from 'auto-element/packages/input';
 import merge from 'auto-element/src/utils/merge';
+import { getExternalScalingRatio } from 'auto-element/src/utils/util';
 
 const NewPopper = {
   props: {
@@ -424,7 +425,8 @@ export default {
       showClose: false,
       userInput: null,
       valueOnOpen: null, // value when picker opens, used to determine whether to emit change
-      unwatchPickerOptions: null
+      unwatchPickerOptions: null,
+      scale: 1
     };
   },
 
@@ -597,6 +599,10 @@ export default {
       if (id) obj.id = id;
       return obj;
     }
+  },
+
+  mounted() {
+    this.scale = getExternalScalingRatio(window.offsetEl)
   },
 
   created() {
@@ -853,7 +859,7 @@ export default {
       this.picker.defaultTime = this.defaultTime;
       this.picker.popperClass = this.popperClass;
       this.popperElm = this.picker.$el;
-      this.picker.width = this.reference.getBoundingClientRect().width;
+      this.picker.width = (this.reference.getBoundingClientRect().width / +this.scale);
       this.picker.showTime = this.type === 'datetime' || this.type === 'datetimerange';
       this.picker.selectionMode = this.selectionMode;
       this.picker.unlinkPanels = this.unlinkPanels;

@@ -9,6 +9,7 @@
 
 <script type="text/babel">
   import Popper from 'auto-element/src/utils/vue-popper';
+  import { getExternalScalingRatio } from 'auto-element/src/utils/util';
 
   export default {
     name: 'ElSelectDropdown',
@@ -46,7 +47,8 @@
 
     data() {
       return {
-        minWidth: ''
+        minWidth: '',
+        scale: 1
       };
     },
 
@@ -58,11 +60,12 @@
 
     watch: {
       '$parent.inputWidth'() {
-        this.minWidth = this.$parent.$el.getBoundingClientRect().width + 'px';
+        this.minWidth = (this.$parent.$el.getBoundingClientRect().width / +this.scale) + 'px';
       }
     },
 
     mounted() {
+      this.scale = getExternalScalingRatio(window.offsetEl)
       this.referenceElm = this.$parent.$refs.reference.$el;
       this.$parent.popperElm = this.popperElm = this.$el;
       this.$on('updatePopper', () => {
